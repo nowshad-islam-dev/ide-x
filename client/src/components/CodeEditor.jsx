@@ -1,6 +1,7 @@
 // client/src/components/CodeEditor.jsx
 import { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
+import axios from 'axios';
 
 const CodeEditor = () => {
   const [html, setHtml] = useState('<h1>Hello, World!</h1>');
@@ -23,7 +24,21 @@ const CodeEditor = () => {
     return () => clearTimeout(timeout);
   }, [html, css, js]);
 
-  const handleSaveSnippet = () => {};
+  const handleSaveSnippet = async () => {
+    // Check if at least one of the code fields is non-empty
+    if (!html.trim() && !css.trim() && !js.trim()) {
+      alert('At least one code field (HTML, CSS, JS) must be filled.');
+      return;
+    }
+
+    try {
+      await axios.post('/api/snippets', { title, html, css, js });
+      alert('Snippet saved successfully!');
+    } catch (err) {
+      console.error(err?.response?.data?.message);
+      alert('Failed to save snippet');
+    }
+  };
 
   return (
     <div className="p-2">
