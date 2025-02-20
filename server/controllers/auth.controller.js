@@ -1,7 +1,5 @@
 // server/controllers/auth.controller.js
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import passport from 'passport';
 
 // Load User Model
 import User from '../models/user.model.js';
@@ -46,7 +44,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Check if password is correct
-    const isMatch = await user.matchPassword(user.password);
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }

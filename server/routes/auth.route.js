@@ -4,7 +4,11 @@ import passport from 'passport';
 
 const router = express.Router();
 
-import { registerUser, loginUser } from '../controllers/auth.controller';
+import {
+  registerUser,
+  loginUser,
+  getGithubOAuth,
+} from '../controllers/auth.controller.js';
 
 // Register a new user
 router.post('/register', registerUser);
@@ -13,9 +17,12 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 // GitHub OAuth
-router.get('/github', passport.authenticate('github'), {
-  scope: ['user:email'],
-});
+router.get(
+  '/github',
+  passport.authenticate('github', {
+    scope: ['user:email'],
+  })
+);
 
 // GitHub OAuth callback
 router.get(

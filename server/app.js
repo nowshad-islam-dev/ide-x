@@ -2,6 +2,7 @@
 import 'dotenv/config'; // Load environment variables
 import express from 'express';
 import cors from 'cors';
+import passport from 'passport';
 
 const app = express();
 
@@ -12,11 +13,11 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(passport.initialize());
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Welcome to the CodePen Clone API');
-});
+import authRoutes from './routes/auth.route.js';
+app.use('/api/auth', authRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
