@@ -12,6 +12,10 @@ const LoginPage = () => {
     // console.log(e.target.value);
     await login({ email, password });
   };
+
+  const handleGithubLogin = () => {
+    window.location.href = '/api/auth/github'; // Redirect to Github OAuth
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form
@@ -44,6 +48,14 @@ const LoginPage = () => {
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
         >
           Login
+        </button>
+
+        {/* GitHub OAuth Button */}
+        <button
+          onClick={handleGithubLogin}
+          className="w-full mt-4 bg-gray-800 text-white py-2 rounded hover:bg-gray-900"
+        >
+          Login with GitHub
         </button>
       </form>
     </div>
