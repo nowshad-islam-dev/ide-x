@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    snippets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Snippet' }],
   },
   { timestamps: true }
 );
