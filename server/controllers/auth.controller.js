@@ -6,7 +6,7 @@ import User from '../models/user.model.js';
 
 // Register a new user
 export const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     // Check if user exists already
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     }
 
     // Create a new user
-    user = new User({ username, email, password });
+    user = new User({ name, email, password });
     await user.save();
 
     // Generate JWT token
