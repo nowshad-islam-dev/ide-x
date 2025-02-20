@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -11,6 +12,14 @@ function App() {
           {/* Define routes here */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/editor"
+            element={
+              <ProtectedRoute>
+                <h1>Code Editor</h1>
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<h1>Welcome to IDE-X</h1>} />
         </Routes>
       </div>
