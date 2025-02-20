@@ -7,6 +7,7 @@ const CodeEditor = () => {
   const [css, setCss] = useState('body { background-color: #f0f0f0; }');
   const [js, setJs] = useState('console.log("Hello, World!");');
   const [srcDoc, setSrcDoc] = useState('');
+  const [title, setTitle] = useState('My Snippet');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,43 +23,65 @@ const CodeEditor = () => {
     return () => clearTimeout(timeout);
   }, [html, css, js]);
 
+  const handleSaveSnippet = () => {};
+
   return (
-    <div className="grid grid-cols-3 gap-4 p-4">
-      {/* HTML Editor */}
-      <div className="col-span-1">
-        <h2 className="text-lg font-bold mb-2">HTML</h2>
-        <Editor
-          height="400px"
-          defaultLanguage="html"
-          defaultValue={html}
-          onChange={(value) => setHtml(value)}
-          theme="vs-dark"
+    <div className="p-2">
+      <div className="mb-2">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Snippet Title"
+          className="w-full px-3 py-2 border rounded"
         />
       </div>
 
-      {/* CSS Editor */}
-      <div className="col-span-1">
-        <h2 className="text-lg font-bold mb-2">HTML</h2>
-        <Editor
-          height="400px"
-          defaultLanguage="css"
-          defaultValue={css}
-          onChange={(value) => setCss(value)}
-          theme="vs-dark"
-        />
+      <div className="grid grid-cols-3 gap-4">
+        {/* HTML Editor */}
+        <div className="col-span-1">
+          <h2 className="text-lg font-bold mb-2">HTML</h2>
+          <Editor
+            height="400px"
+            defaultLanguage="html"
+            defaultValue={html}
+            onChange={(value) => setHtml(value)}
+            theme="vs-dark"
+          />
+        </div>
+
+        {/* CSS Editor */}
+        <div className="col-span-1">
+          <h2 className="text-lg font-bold mb-2">HTML</h2>
+          <Editor
+            height="400px"
+            defaultLanguage="css"
+            defaultValue={css}
+            onChange={(value) => setCss(value)}
+            theme="vs-dark"
+          />
+        </div>
+
+        {/* JS Editor */}
+        <div className="col-span-1">
+          <h2 className="text-lg font-bold mb-2">HTML</h2>
+          <Editor
+            height="400px"
+            defaultLanguage="javascript"
+            defaultValue={js}
+            onChange={(value) => setJs(value)}
+            theme="vs-dark"
+          />
+        </div>
       </div>
 
-      {/* JS Editor */}
-      <div className="col-span-1">
-        <h2 className="text-lg font-bold mb-2">HTML</h2>
-        <Editor
-          height="400px"
-          defaultLanguage="javascript"
-          defaultValue={js}
-          onChange={(value) => setJs(value)}
-          theme="vs-dark"
-        />
-      </div>
+      {/* Save Button */}
+      <button
+        onClick={handleSaveSnippet}
+        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+      >
+        Save Snippet
+      </button>
 
       {/* Output */}
       <div className="mt-8">
