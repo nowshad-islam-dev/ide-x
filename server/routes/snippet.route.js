@@ -9,7 +9,7 @@ import User from '../models/user.model.js';
 const router = express.Router();
 
 // create a snippet with a title
-router.post('/snippet', protect, async (req, res) => {
+router.post('/', protect, async (req, res) => {
   const { title, html, css, js } = req.body;
 
   // Check if at least one of the code fields is non-empty
