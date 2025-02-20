@@ -1,6 +1,7 @@
 // client/src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+
+import axiosInstance from '../axiosInstance.js';
 
 const AuthContext = createContext();
 
@@ -11,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   // Register a User
   const register = async (userData) => {
     try {
-      const res = await axios.post('/api/auth/register', userData);
+      const res = await axiosInstance.post('/auth/register', userData);
 
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   // Login a User
   const login = async (userData) => {
     try {
-      const res = await axios.post('/api/auth/login', userData);
+      const res = await axiosInstance.post('/auth/login', userData);
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
     } catch (err) {
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUer = async () => {
       if (token) {
         try {
-          const res = await axios.get('/api/auth/me', {
+          const res = await axiosInstance.get('/auth/me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },

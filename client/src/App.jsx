@@ -15,7 +15,14 @@ function App() {
           {/* Define routes here */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/editor" element={<CodeEditor />} />
+          <Route
+            path="/editor"
+            element={
+              <ProtectedRoute>
+                <CodeEditor />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<h1>Welcome to IDE-X</h1>} />
         </Routes>
       </div>
