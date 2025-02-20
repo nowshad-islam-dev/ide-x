@@ -1,0 +1,23 @@
+project-root/
+│
+├── client/               # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── pages/        # Different pages (Login, Dashboard, etc.)
+│   │   ├── hooks/        # Custom hooks
+│   │   ├── context/      # React Context for global state
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+│
+├── server/               # Express backend
+│   ├── controllers/      # Controllers for handling requests
+│   ├── models/           # Mongoose models
+│   ├── routes/           # API routes
+│   ├── middleware/       # Middleware (auth, error handling)
+│   ├── config/           # Configuration files (db connection, env vars)
+│   └── app.js            # Main server file
+│
+├── .env                  # Environment variables
+└── README.md             # Project documentation
