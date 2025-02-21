@@ -40,22 +40,34 @@ export const AuthProvider = ({ children }) => {
 
   // Fetch user data if token exist
   useEffect(() => {
-    const fetchUer = async () => {
-      if (token) {
-        try {
-          const res = await axiosInstance.get('/auth/me', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+    const fetchUser = async () => {
+      if (!token) return;
+      let isMounted = true; // Prevent state update on unmounted component
+
+      try {
+        const res = await axiosInstance.get('/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (isMounted) {
           setUser(res.data);
-        } catch (err) {
-          console.log(err?.response?.data?.message);
-          logout();
         }
+      } catch (err) {
+        console.error(
+          'Error fetching user:',
+          err?.response?.data?.message || err
+        );
+        logout();
       }
+
+      return () => {
+        isMounted = false; // Cleanup function
+      };
     };
-    fetchUer();
+
+    fetchUser();
   }, [token]);
 
   return (
