@@ -35,11 +35,12 @@ router.get(
   getGithubOAuth
 );
 
-router.get('/me', protect, (req, res) => {
+router.get('/me', protect, async (req, res) => {
   try {
     // req.user is set in the protect middleware
     // it refers to the user id in the token
-    const user = User.findById(req.user).select('-password');
+    const user = await User.findById(req.user).select('-password');
+
     res.json(user);
   } catch (err) {
     console.error(err.message);
