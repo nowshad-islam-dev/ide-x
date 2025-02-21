@@ -1,5 +1,7 @@
 // client/src/pages/RegisterPage.jsx
 import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import AuthContext from '../context/AuthContext';
 
 const RegisterPage = () => {
@@ -8,10 +10,13 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const { register } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(e.target.value);
     await register({ name, email, password });
+    navigate('/'); // Redirect to home page after registration
   };
 
   return (
@@ -57,6 +62,12 @@ const RegisterPage = () => {
         >
           Register
         </button>
+        <Link
+          to="/login"
+          className="text-gray-700 hover:text-blue-500 font-medium ml-8"
+        >
+          Have an account? Login
+        </Link>
       </form>
     </div>
   );

@@ -1,5 +1,7 @@
 // client/src/pages/LoginPage.jsx
 import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import AuthContext from '../context/AuthContext';
 
 const LoginPage = () => {
@@ -7,10 +9,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(e.target.value);
     await login({ email, password });
+    navigate('/');
   };
 
   const handleGithubLogin = () => {
@@ -57,6 +62,12 @@ const LoginPage = () => {
         >
           Login with GitHub
         </button>
+        <Link
+          to="/register"
+          className="text-gray-700 hover:text-blue-500 font-medium ml-8"
+        >
+          Register a new account
+        </Link>
       </form>
     </div>
   );
