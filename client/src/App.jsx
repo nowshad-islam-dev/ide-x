@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CodeEditor from './components/CodeEditor';
+import SnippetsPage from './pages/SnippetsPage';
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CodeEditor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/snippets"
+            element={
+              <ProtectedRoute>
+                <SnippetsPage />
               </ProtectedRoute>
             }
           />
