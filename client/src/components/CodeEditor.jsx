@@ -32,7 +32,7 @@ const CodeEditor = () => {
     }
 
     try {
-      await axios.post('/api/snippets', { title, html, css, js });
+      await axios.post('/api/snippet', { title, html, css, js });
       alert('Snippet saved successfully!');
     } catch (err) {
       console.error(err?.response?.data?.message);
