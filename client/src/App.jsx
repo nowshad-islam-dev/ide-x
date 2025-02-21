@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import CodeEditor from './components/CodeEditor';
 import SnippetsPage from './pages/SnippetsPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<h1>Welcome to IDE-X</h1>} />
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
     </Router>
