@@ -1,7 +1,9 @@
 // client/src/components/CodeEditor.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import axios from 'axios';
+
+import AuthContext from '../context/AuthContext';
 
 const CodeEditor = () => {
   const [html, setHtml] = useState('<h1>Hello, World!</h1>');
@@ -9,6 +11,7 @@ const CodeEditor = () => {
   const [js, setJs] = useState('console.log("Hello, World!");');
   const [srcDoc, setSrcDoc] = useState('');
   const [title, setTitle] = useState('My Snippet');
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -32,7 +35,15 @@ const CodeEditor = () => {
     }
 
     try {
-      await axios.post('/api/snippet', { title, html, css, js });
+      await axios.post(
+        '/api/snippet',
+        { title, html, css, js },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       alert('Snippet saved successfully!');
     } catch (err) {
       console.error(err?.response?.data?.message);
