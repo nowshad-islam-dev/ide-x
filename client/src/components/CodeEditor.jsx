@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from 'react';
 import Editor from '@monaco-editor/react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import AuthContext from '../context/AuthContext';
 
@@ -107,6 +108,10 @@ const CodeEditor = () => {
         className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
       >
         Save Snippet
+      </button>
+
+      <button className="bg-blue-700 hover:bg-blue-500 p-2 ml-2 rounded-md text-white font-semibold">
+        <Link to="/">Home</Link>
       </button>
 
       {/* Output */}
