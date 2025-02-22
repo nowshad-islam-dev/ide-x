@@ -1,27 +1,16 @@
 // client/src/page/SnippetsPage.jsx
 import { useEffect, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axiosInstance from '../axiosInstance.js';
-
-import AuthContext from '../context/AuthContext';
 
 const SnippetsPage = () => {
   const [snippets, setSnippets] = useState([]);
-  const { token } = useContext(AuthContext);
-
-  // create Authorization Header
-  // Format : Bearer token
-  const AuthHead = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
 
   // Fetch snippets when the component mounts
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const res = await axiosInstance.get('/snippet', AuthHead);
+        const res = await axiosInstance.get('/snippet');
         setSnippets(res.data);
       } catch (err) {
         console.error(err?.response?.data?.message);
@@ -34,7 +23,7 @@ const SnippetsPage = () => {
   const handleDeleteSnippet = async (id) => {
     if (window.confirm('Are you sure you want to delete this snippet?')) {
       try {
-        await axiosInstance.delete(`/snippet/${id}`, AuthHead);
+        await axiosInstance.delete(`/snippet/${id}`);
         setSnippets((prevSnippets) =>
           prevSnippets.filter((snippet) => snippet._id !== id)
         );

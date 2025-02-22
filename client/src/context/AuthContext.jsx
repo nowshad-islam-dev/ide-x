@@ -46,11 +46,7 @@ export const AuthProvider = ({ children }) => {
       let isMounted = true; // Prevent state update on unmounted component
 
       try {
-        const res = await axiosInstance.get('/auth/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axiosInstance.get('/auth/me');
 
         if (isMounted) {
           setUser(res.data);

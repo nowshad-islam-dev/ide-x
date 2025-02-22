@@ -14,15 +14,7 @@ const CodeEditor = () => {
   const [js, setJs] = useState('console.log("Hello, World!");');
   const [title, setTitle] = useState('My Snippet');
   const [srcDoc, setSrcDoc] = useState('');
-  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
-  // create Authorization Header
-  // Format : Bearer token
-  const AuthHead = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
 
   // Fetch snippet data if editing an existing snippet
   useEffect(() => {
@@ -32,9 +24,7 @@ const CodeEditor = () => {
     const fetchSnippet = async () => {
       if (id) {
         try {
-          const res = await axiosInstance.get(`/snippet/${id}`, AuthHead, {
-            signal,
-          });
+          const res = await axiosInstance.get(`/snippet/${id}`, { signal });
           const { title, html, css, js } = res.data;
           setTitle(title);
           setHtml(html);
@@ -93,24 +83,16 @@ const CodeEditor = () => {
     try {
       if (id) {
         // Update existing snippet
-        await axiosInstance.put(
-          `/snippet/${id}`,
-          {
-            title,
-            html,
-            css,
-            js,
-          },
-          AuthHead
-        );
+        await axiosInstance.put(`/snippet/${id}`, {
+          title,
+          html,
+          css,
+          js,
+        });
         alert('Snippet updated successfully!');
       } else {
         // save new snippet
-        await axiosInstance.post(
-          '/snippet',
-          { title, html, css, js },
-          AuthHead
-        );
+        await axiosInstance.post('/snippet', { title, html, css, js });
         alert('Snippet saved successfully!');
       }
     } catch (err) {
