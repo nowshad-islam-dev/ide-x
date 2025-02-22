@@ -1,6 +1,7 @@
 // client/src/page/SnippetsPage.jsx
 import { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosInstance.js';
 
 import AuthContext from '../context/AuthContext';
 
@@ -8,14 +9,19 @@ const SnippetsPage = () => {
   const [snippets, setSnippets] = useState([]);
   const { token } = useContext(AuthContext);
 
+  // create Authorization Header
+  // Format : Bearer token
+  const AuthHead = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  // Fetch snippets when the component mounts
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const res = await axios.get('/api/snippet', {
-          headers: {
-            Authorization: `Bearer ${token}`, // api expects Bearer token
-          },
-        });
+        const res = await axiosInstance.get('/snippet', AuthHead);
         setSnippets(res.data);
       } catch (err) {
         console.error(err?.response?.data?.message);
@@ -24,9 +30,24 @@ const SnippetsPage = () => {
     fetchSnippets();
   }, []);
 
+  // Delete snippet with snippet id
+  const handleDeleteSnippet = async (id) => {
+    if (window.confirm('Are you sure you want to delete this snippet?')) {
+      try {
+        await axiosInstance.delete(`/snippet/${id}`, AuthHead);
+        setSnippets((prevSnippets) =>
+          prevSnippets.filter((snippet) => snippet._id !== id)
+        );
+      } catch (err) {
+        console.error(err?.response?.data?.message || err);
+      }
+    }
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Your Saved Snippets</h1>
+
       {snippets.length === 0 ? (
         <p>No snippets found. Start creating some!</p>
       ) : (
@@ -46,6 +67,21 @@ const SnippetsPage = () => {
               <p>
                 <strong>JS:</strong> {snippet.js || 'No JavaScript'}
               </p>
+              <div>
+                <Link
+                  to={`/editor/${snippet._id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  Edit
+                </Link>
+
+                <button
+                  onClick={() => handleDeleteSnippet(snippet._id)}
+                  className="ml-2 text-red-500 hover:underline"
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
