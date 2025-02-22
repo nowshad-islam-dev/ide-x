@@ -12,6 +12,7 @@ import {
   getSnippets,
   getOneSnippet,
   deleteSnippet,
+  getShareAbleSnippet,
 } from '../controllers/snippet.controller.js';
 
 const router = express.Router();
@@ -30,5 +31,8 @@ router.put('/:id', protect, editSnippet);
 
 // Delete a snippet with specific id
 router.delete('/:id', protect, deleteSnippet);
+
+// Get a snippet by shareableId (Public route)
+router.get('/shared/:shareableId', getShareAbleSnippet);
 
 export default router;

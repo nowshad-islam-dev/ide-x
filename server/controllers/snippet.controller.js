@@ -124,3 +124,20 @@ export const deleteSnippet = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+export const getShareAbleSnippet = async (req, res) => {
+  try {
+    const snippet = await Snippet.findOne({
+      shareableId: req.params.shareableId,
+    });
+
+    if (!snippet) {
+      return res.status(404).json({ message: 'Snippet not found' });
+    }
+
+    res.json(snippet);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
