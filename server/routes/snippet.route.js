@@ -20,7 +20,7 @@ const router = express.Router();
 router.post('/', protect, createSnippet);
 
 // Get all snippets of a user
-router.get('/', protect, getSnippets, editSnippet);
+router.get('/', protect, getSnippets);
 
 // Get one specific snippet
 router.get('/:id', protect, getOneSnippet);
