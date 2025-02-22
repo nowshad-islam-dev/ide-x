@@ -1,5 +1,6 @@
 // server/models/Snippet.js
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const snippetSchema = new mongoose.Schema(
   {
@@ -23,6 +24,11 @@ const snippetSchema = new mongoose.Schema(
     js: {
       type: String,
       default: '',
+    },
+    shareableId: {
+      type: String,
+      unique: true, // Generate a unique shareable ID for each snippet
+      default: () => uuidv4(),
     },
   },
   { timestamps: true }
