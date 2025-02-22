@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }) => {
   // Logout a User
   const logout = () => {
     setToken(null);
-    localStorage.removeItem('token');
     setUser(null);
+    localStorage.removeItem('token');
   };
 
   // Fetch user data if token exist
