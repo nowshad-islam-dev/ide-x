@@ -72,7 +72,7 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="bg-white shadow-md mt-auto">
         <div className="container mx-auto px-6 py-4 text-center text-gray-600">
-          &copy; {new Date().getFullYear()} CodePen Clone. All rights reserved.
+          &copy; {new Date().getFullYear()} IDE-X. All rights reserved.
         </div>
       </footer>
     </div>
