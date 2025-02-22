@@ -69,7 +69,7 @@ const SnippetsPage = () => {
               </p>
               <div>
                 <Link
-                  to={`/editor/${snippet._id}`}
+                  to={`/editor/${snippet._id}`} // navigate to editor with snippet id
                   className="text-blue-500 hover:underline"
                 >
                   Edit

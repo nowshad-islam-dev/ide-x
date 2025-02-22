@@ -1,19 +1,48 @@
 // client/src/components/CodeEditor.jsx
 import { useState, useEffect, useContext } from 'react';
 import Editor from '@monaco-editor/react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
 
 import AuthContext from '../context/AuthContext';
 
 const CodeEditor = () => {
+  const { id } = useParams(); // Get snippet ID from URL params
   const [html, setHtml] = useState('<h1>Hello, World!</h1>');
   const [css, setCss] = useState('body { background-color: #f0f0f0; }');
   const [js, setJs] = useState('console.log("Hello, World!");');
   const [srcDoc, setSrcDoc] = useState('');
   const [title, setTitle] = useState('My Snippet');
   const { token } = useContext(AuthContext);
+  // create Authorization Header
+  // Format : Bearer token
+  const AuthHead = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
+  // Fetch snippet data if editing an existing snippet
+  useEffect(() => {
+    const fetchSnippet = async () => {
+      if (id) {
+        try {
+          const res = await axiosInstance.get(`/snippet/${id}`);
+          const { title, html, css, js } = res.data;
+          setTitle(title);
+          setHtml(html);
+          setCss(css);
+          setJs(js);
+        } catch (err) {
+          console.error(err?.response?.data?.message);
+        }
+      }
+    };
+
+    fetchSnippet();
+  }, [id]);
+
+  // Update the iframe content whenever HTML, CSS, or JS changes
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
@@ -28,6 +57,7 @@ const CodeEditor = () => {
     return () => clearTimeout(timeout);
   }, [html, css, js]);
 
+  // Function to save the snippet
   const handleSaveSnippet = async () => {
     // Check if at least one of the code fields is non-empty
     if (!html.trim() && !css.trim() && !js.trim()) {
@@ -36,16 +66,28 @@ const CodeEditor = () => {
     }
 
     try {
-      await axios.post(
-        '/api/snippet',
-        { title, html, css, js },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      if (id) {
+        // Update existing snippet
+        await axiosInstance.put(
+          `/snippet/${id}`,
+          {
+            title,
+            html,
+            css,
+            js,
           },
-        }
-      );
-      alert('Snippet saved successfully!');
+          AuthHead
+        );
+        alert('Snippet updated successfully!');
+      } else {
+        // save new snippet
+        await axiosInstance.post(
+          '/snippet',
+          { title, html, css, js },
+          AuthHead
+        );
+        alert('Snippet saved successfully!');
+      }
     } catch (err) {
       console.error(err?.response?.data?.message);
       alert('Failed to save snippet');
@@ -107,7 +149,7 @@ const CodeEditor = () => {
         onClick={handleSaveSnippet}
         className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
       >
-        Save Snippet
+        {id ? 'Update Snippet' : 'Save Snippet'}
       </button>
 
       <button className="bg-blue-700 hover:bg-blue-500 p-2 ml-2 rounded-md text-white font-semibold">

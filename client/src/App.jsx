@@ -26,6 +26,14 @@ function App() {
             }
           />
           <Route
+            path="/editor/:id"
+            element={
+              <ProtectedRoute>
+                <CodeEditor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/snippets"
             element={
               <ProtectedRoute>
