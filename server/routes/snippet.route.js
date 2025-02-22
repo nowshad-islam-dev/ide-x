@@ -78,34 +78,38 @@ router.put('/:id', protect, async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server error');
   }
+});
 
-  router.delete('/:id', protect, async (req, res) => {
-    try {
-      const snippet = await Snippet.findById(req.params.id);
+router.delete('/:id', protect, async (req, res) => {
+  try {
+    const snippet = await Snippet.findById(req.params.id);
 
-      if (!snippet) {
-        return res.status(404).json({ message: 'Snippet not found' });
-      }
-
-      // Ensure the snippet belongs to the logged-in user
-      if (snippet.user.toString() !== req.user) {
-        return res.status(401).json({ message: 'Not authorized' });
-      }
-
-      // Remove the snippet from the database
-      await snippet.remove();
-
-      // Remove the snippet ID from the user's snippets array
-      await User.findByIdAndUpdate(req.user, {
-        $pull: { snippets: req.params.id },
-      });
-
-      res.json({ message: 'Snippet deleted successfully' });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+    if (!snippet) {
+      return res.status(404).json({ message: 'Snippet not found' });
     }
-  });
+
+    // Ensure the snippet belongs to the logged-in user
+    if (snippet.user.toString() !== req.user.toString()) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    // Remove the snippet from the database
+    await Snippet.deleteOne({ _id: snippet._id });
+
+    // Remove the snippet ID from the user's snippets array
+    await User.findByIdAndUpdate(
+      req.user,
+      {
+        $pull: { snippets: req.params.id },
+      },
+      { new: true }
+    );
+
+    res.json({ message: 'Snippet deleted successfully' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
 });
 
 export default router;
