@@ -47,6 +47,26 @@ export const getSnippets = async (req, res) => {
   }
 };
 
+export const getOneSnippet = async (req, res) => {
+  try {
+    const snippet = await Snippet.findById(req.params.id);
+
+    if (!snippet) {
+      return res.status(404).json({ message: 'Snippet not found' });
+    }
+
+    // Ensure the snippet belongs to the logged-in user
+    if (req.user.toString() !== snippet.user.toString()) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    res.json(snippet);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
 export const editSnippet = async (req, res) => {
   const { title, html, css, js } = req.body;
 
