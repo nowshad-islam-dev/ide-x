@@ -1,19 +1,21 @@
 // client/src/components/CodeEditor.jsx
 import { useState, useEffect, useContext } from 'react';
 import Editor from '@monaco-editor/react';
-import { Link, useParams } from 'react-router-dom';
-import axiosInstance from '../axiosInstance';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosInstance.js';
 
 import AuthContext from '../context/AuthContext';
 
 const CodeEditor = () => {
   const { id } = useParams(); // Get snippet ID from URL params
+  const [loading, setLoading] = useState(true); // Add a loading state
   const [html, setHtml] = useState('<h1>Hello, World!</h1>');
   const [css, setCss] = useState('body { background-color: #f0f0f0; }');
   const [js, setJs] = useState('console.log("Hello, World!");');
-  const [srcDoc, setSrcDoc] = useState('');
   const [title, setTitle] = useState('My Snippet');
+  const [srcDoc, setSrcDoc] = useState('');
   const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
   // create Authorization Header
   // Format : Bearer token
   const AuthHead = {
@@ -24,23 +26,46 @@ const CodeEditor = () => {
 
   // Fetch snippet data if editing an existing snippet
   useEffect(() => {
+    const abortController = new AbortController(); // Create an AbortController instance
+    const signal = abortController.signal; // Get the signal to pass to the fetch request
+
     const fetchSnippet = async () => {
       if (id) {
         try {
-          const res = await axiosInstance.get(`/snippet/${id}`);
+          const res = await axiosInstance.get(`/snippet/${id}`, AuthHead, {
+            signal,
+          });
           const { title, html, css, js } = res.data;
           setTitle(title);
           setHtml(html);
           setCss(css);
           setJs(js);
         } catch (err) {
-          console.error(err?.response?.data?.message);
+          // Ignore errors caused by aborting
+          if (err.name !== 'CanceledError') {
+            console.error(
+              'Failed to fetch snippet',
+              err?.response?.data?.message
+            );
+
+            alert('Failed to load snippet. Redirecting to snippets page.');
+            navigate('/snippets'); // Redirect if snippet cannot be loaded
+          }
+        } finally {
+          setLoading(false); // Set loading to false after fetching
         }
+      } else {
+        setLoading(false); // No need to fetch for new snippets
       }
     };
 
     fetchSnippet();
-  }, [id]);
+
+    // Cleanup function to abort the request if the component unmounts
+    return () => {
+      abortController.abort(); // Abort any ongoing request
+    };
+  }, [id, navigate]);
 
   // Update the iframe content whenever HTML, CSS, or JS changes
   useEffect(() => {
@@ -93,6 +118,15 @@ const CodeEditor = () => {
       alert('Failed to save snippet');
     }
   };
+
+  // Show a loading spinner while fetching data
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2">
