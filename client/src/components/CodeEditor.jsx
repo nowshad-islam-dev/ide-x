@@ -1,10 +1,8 @@
 // client/src/components/CodeEditor.jsx
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosInstance.js';
-
-import AuthContext from '../context/AuthContext';
 
 const CodeEditor = () => {
   const { id } = useParams(); // Get snippet ID from URL params
