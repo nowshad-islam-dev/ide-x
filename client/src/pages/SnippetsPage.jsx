@@ -1,10 +1,11 @@
 // client/src/page/SnippetsPage.jsx
-import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosInstance.js';
 
 const SnippetsPage = () => {
   const [snippets, setSnippets] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch snippets when the component mounts
   useEffect(() => {
@@ -31,6 +32,21 @@ const SnippetsPage = () => {
         console.error(err?.response?.data?.message || err);
       }
     }
+  };
+
+  // Copy shareable link to clipboard
+  const handleShareSnippet = (shareableId) => {
+    const shareableUrl = `${window.location.origin}/shared/${shareableId}`;
+
+    navigator.clipboard
+      .writeText(shareableUrl)
+      .then(() => {
+        alert(`Shareable link copied to clipboard:\n${shareableUrl}`);
+      })
+      .catch((err) => {
+        console.error('Failed to copy link:', err);
+        alert('Failed to copy link. Please try again.');
+      });
   };
 
   return (
@@ -69,6 +85,13 @@ const SnippetsPage = () => {
                   className="ml-2 text-red-500 hover:underline"
                 >
                   Delete
+                </button>
+
+                <button
+                  onClick={() => handleShareSnippet(snippet.shareableId)}
+                  className="ml-2 text-purple-500 hover:underline"
+                >
+                  Share
                 </button>
               </div>
             </li>

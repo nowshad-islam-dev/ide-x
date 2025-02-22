@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CodeEditor from './components/CodeEditor';
 import SnippetsPage from './pages/SnippetsPage';
 import HomePage from './pages/HomePage';
+import SharedSnippetPage from './pages/SharedSnippetPage';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/shared/:shareableId" element={<SharedSnippetPage />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
