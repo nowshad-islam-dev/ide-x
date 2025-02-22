@@ -10,6 +10,7 @@ import {
   createSnippet,
   editSnippet,
   getSnippets,
+  getOneSnippet,
   deleteSnippet,
 } from '../controllers/snippet.controller.js';
 
@@ -20,6 +21,9 @@ router.post('/', protect, createSnippet);
 
 // Get all snippets of a user
 router.get('/', protect, getSnippets, editSnippet);
+
+// Get one specific snippet
+router.get('/:id', protect, getOneSnippet);
 
 // Edit a snippet with specific id
 router.put('/:id', protect, editSnippet);
