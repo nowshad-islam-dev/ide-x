@@ -1,6 +1,7 @@
 // client/src/page/SnippetsPage.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import axiosInstance from '../axiosInstance.js';
 
 const SnippetsPage = () => {
@@ -50,8 +51,10 @@ const SnippetsPage = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Saved Snippets</h1>
+    <div className="p-4 min-h-screen bg-gray-100 dark:bg-gray-900">
+      <h1 className="text-2xl font-bold mb-4 dark:text-gray-200">
+        Your Saved Snippets
+      </h1>
 
       {snippets.length === 0 ? (
         <p>No snippets found. Start creating some!</p>
@@ -60,7 +63,7 @@ const SnippetsPage = () => {
           {snippets.map((snippet) => (
             <li
               key={snippet._id}
-              className="mb-4 p-4 border rounded bg-gray-50"
+              className="mb-4 p-4 border rounded bg-gray-50 dark:bg-gray-300"
             >
               <h2 className="text-lg font-bold">{snippet.title}</h2>
               <p>
