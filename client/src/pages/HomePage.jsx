@@ -23,13 +23,13 @@ const HomePage = () => {
               <>
                 <Link
                   to="/login"
-                  className="text-gray-700 hover:text-blue-500 font-medium"
+                  className="text-gray-700 hover:text-blue-500 font-medium transition duration-300"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="text-gray-700 hover:text-blue-500 font-medium"
+                  className="text-gray-700 hover:text-blue-500 font-medium  transition duration-300"
                 >
                   Register
                 </Link>
@@ -38,13 +38,13 @@ const HomePage = () => {
               <>
                 <Link
                   to="/snippets"
-                  className="text-gray-700 hover:text-blue-500 font-medium"
+                  className="text-gray-700 hover:text-blue-500 font-medium  transition duration-300"
                 >
                   View Snippets
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-red-500 hover:text-red-700 font-medium"
+                  className="text-red-500 hover:text-red-700 font-medium  transition duration-300"
                 >
                   Logout
                 </button>
@@ -55,7 +55,7 @@ const HomePage = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container h-[75vh] mx-auto px-6 py-8">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
           Welcome to IDE-X
         </h1>
@@ -63,7 +63,7 @@ const HomePage = () => {
           Create, save, and share your code snippets with ease.
         </p>
         <p className="text-center p-4">
-          <button className="bg-blue-700 hover:bg-blue-500 p-3 rounded-xl text-white font-semibold">
+          <button className="bg-blue-700 hover:bg-blue-500 p-3 rounded-xl text-white font-semibold transition duration-300">
             <Link to="/editor">Go To Editor</Link>
           </button>
         </p>
