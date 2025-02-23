@@ -9,7 +9,7 @@ import { FaSun } from 'react-icons/fa';
 import AuthContext from '../context/AuthContext';
 import ThemeContext from '../context/ThemeContext';
 
-const Navbar = () => {
+const Navbar = ({ parent }) => {
   const { user, logout } = useContext(AuthContext);
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -41,10 +41,10 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                to="/snippets"
+                to={parent === 'home' ? '/snippets' : '/'}
                 className="text-gray-700 hover:text-blue-500 font-medium  transition duration-300 dark:text-gray-300 dark:hover:text-blue-400"
               >
-                View Snipets
+                {parent === 'home' ? 'View Snippets' : 'Home'}
               </Link>
               <button
                 onClick={handleLogout}

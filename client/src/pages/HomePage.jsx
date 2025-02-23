@@ -24,7 +24,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* Navbar */}
-      <Navbar />
+      <Navbar parent="home" />
 
       {/* Main Content */}
       <main className="container h-[75vh] mx-auto px-6 py-8">
