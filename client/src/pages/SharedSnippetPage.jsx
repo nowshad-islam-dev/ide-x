@@ -7,7 +7,7 @@ import axiosInstance from '../axiosInstance.js';
 import React from 'react';
 
 const SharedSnippetPage = () => {
-  const shareableId = useParams();
+  const shareableId = useParams().shareableId;
   const [snippet, setSnippet] = useState(null);
   const [loading, setLoading] = useState(true);
 
