@@ -3,7 +3,10 @@ import { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import axiosInstance from '../axiosInstance.js';
+import CodeEditorInput from './CodeEditorInput';
+import CodeEditorPane from './CodeEditorPane';
 
 const CodeEditor = () => {
   const { id } = useParams(); // Get snippet ID from URL params
@@ -154,67 +157,34 @@ const CodeEditor = () => {
 
   return (
     <div className="p-2">
-      <div className="mb-2">
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Snippet Title"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focu:ring-blue-500 transition duration-300"
-        />
-      </div>
+      {/* Title Input */}
+      <CodeEditorInput
+        label="Snippet Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Enter snippet title"
+      />
 
-      {/* Filename Input */}
-      <div className="mb-4">
-        <label className="block text-gray-700mb-1">Filename</label>
-        <input
-          type="text"
-          value={filename}
-          onChange={(e) => setFilename(e.target.value)}
-          placeholder="Enter filename (without extension)"
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-        />
-      </div>
-
+      {/* Editors */}
       <div className="grid grid-cols-3 gap-4">
-        {/* HTML Editor */}
-        <div className="col-span-1">
-          <h2 className="text-lg font-bold mb-2">HTML</h2>
-          <Editor
-            height="400px"
-            defaultLanguage="html"
-            defaultValue={html}
-            onChange={(value) => setHtml(value)}
-            theme="vs-dark"
-            minimap={{ enabled: false }}
-          />
-        </div>
-
-        {/* CSS Editor */}
-        <div className="col-span-1 ">
-          <h2 className="text-lg font-bold mb-2">CSS</h2>
-          <Editor
-            height="400px"
-            defaultLanguage="css"
-            defaultValue={css}
-            onChange={(value) => setCss(value)}
-            theme="vs-dark"
-            minimap={{ enabled: false }}
-          />
-        </div>
-
-        {/* JS Editor */}
-        <div className="col-span-1">
-          <h2 className="text-lg font-bold mb-2">JAVASCRIPT</h2>
-          <Editor
-            height="400px"
-            defaultLanguage="javascript"
-            defaultValue={js}
-            onChange={(value) => setJs(value)}
-            theme="vs-dark"
-            minimap={{ enabled: false }}
-          />
-        </div>
+        <CodeEditorPane
+          language="html"
+          value={html}
+          onChange={(value) => setHtml(value || '')}
+          title="HTML"
+        />
+        <CodeEditorPane
+          language="css"
+          value={css}
+          onChange={(value) => setCss(value || '')}
+          title="CSS"
+        />
+        <CodeEditorPane
+          language="javascript"
+          value={js}
+          onChange={(value) => setJs(value || '')}
+          title="JavaScript"
+        />
       </div>
 
       {/* Save Button */}
