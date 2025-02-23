@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axiosInstance from '../axiosInstance.js';
 
 const CodeEditor = () => {
@@ -36,7 +37,9 @@ const CodeEditor = () => {
               err?.response?.data?.message
             );
 
-            alert('Failed to load snippet. Redirecting to snippets page.');
+            toast.error(
+              'Failed to load snippet. Redirecting to snippets page.'
+            );
             navigate('/snippets'); // Redirect if snippet cannot be loaded
           }
         } finally {
@@ -87,15 +90,15 @@ const CodeEditor = () => {
           css,
           js,
         });
-        alert('Snippet updated successfully!');
+        toast.success('Snippet updated successfully!');
       } else {
         // save new snippet
         await axiosInstance.post('/snippet', { title, html, css, js });
-        alert('Snippet saved successfully!');
+        toast.success('Snippet saved successfully!');
       }
     } catch (err) {
       console.error(err?.response?.data?.message);
-      alert('Failed to save snippet');
+      toast.success('Failed to save snippet. Please try again');
     }
   };
 
