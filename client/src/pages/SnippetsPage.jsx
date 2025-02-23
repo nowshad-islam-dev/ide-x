@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import axiosInstance from '../axiosInstance.js';
 import Footer from '../components/Footer.jsx';
+import Navbar from '../components/Navbar.jsx';
 
 const SnippetsPage = () => {
   const [snippets, setSnippets] = useState([]);
@@ -53,6 +54,7 @@ const SnippetsPage = () => {
 
   return (
     <div className="p-4 min-h-screen bg-gray-100 dark:bg-gray-900">
+      <Navbar />
       <h1 className="text-2xl font-bold mb-4 dark:text-gray-200">
         Your Saved Snippets
       </h1>
