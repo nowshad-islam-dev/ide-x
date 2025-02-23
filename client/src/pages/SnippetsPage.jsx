@@ -1,11 +1,11 @@
 // client/src/page/SnippetsPage.jsx
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axiosInstance from '../axiosInstance.js';
 
 const SnippetsPage = () => {
   const [snippets, setSnippets] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Fetch snippets when the component mounts
   useEffect(() => {
