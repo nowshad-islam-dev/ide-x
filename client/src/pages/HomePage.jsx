@@ -2,6 +2,10 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+// React icons
+import { FaMoon } from 'react-icons/fa';
+import { FaSun } from 'react-icons/fa';
+
 import AuthContext from '../context/AuthContext';
 import ThemeContext from '../context/ThemeContext';
 import Footer from '../components/Footer';
@@ -59,7 +63,7 @@ const HomePage = () => {
               onClick={toggleTheme}
               className="text-gray-700 hover:text-blue-500 font-medium transition duration-300 dark:text-gray-300 dark:hover:text-blue-400"
             >
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+              {isDarkMode ? <FaSun /> : <FaMoon />}
             </button>
           </div>
         </div>
