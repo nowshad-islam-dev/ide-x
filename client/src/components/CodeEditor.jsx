@@ -13,6 +13,7 @@ const CodeEditor = () => {
   const [js, setJs] = useState('console.log("Hello, World!");');
   const [title, setTitle] = useState('My Snippet');
   const [srcDoc, setSrcDoc] = useState('');
+  const [filename, setFilename] = useState('snippet');
   const navigate = useNavigate();
 
   // Fetch snippet data if editing an existing snippet
@@ -102,6 +103,46 @@ const CodeEditor = () => {
     }
   };
 
+  // Function to download a file
+  const downloadFile = (content, filename, mimeType) => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url); // Clean up the URL object
+  };
+
+  // Export as separate files
+  const handleExportSeparateFiles = () => {
+    downloadFile(html, `${title}-html.html`, 'text/html');
+    downloadFile(css, `${title}-css.css`, 'text/css');
+    downloadFile(js, `${title}-js.js`, 'application/javascript');
+    toast.success('Snippet exported as separate files!');
+  };
+
+  // Export as a single HTML file
+  const handleExportSingleFile = () => {
+    const fullHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${title}</title>
+        <style>${css}</style>
+      </head>
+      <body>
+        ${html}
+        <script>${js}</script>
+      </body>
+      </html>
+    `;
+    downloadFile(fullHtml, `${title}.html`, 'text/html');
+    toast.success('Snippet exported as a single HTML file!');
+  };
+
   // Show a loading spinner while fetching data
   if (loading) {
     return (
@@ -123,6 +164,18 @@ const CodeEditor = () => {
         />
       </div>
 
+      {/* Filename Input */}
+      <div className="mb-4">
+        <label className="block text-gray-700mb-1">Filename</label>
+        <input
+          type="text"
+          value={filename}
+          onChange={(e) => setFilename(e.target.value)}
+          placeholder="Enter filename (without extension)"
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+        />
+      </div>
+
       <div className="grid grid-cols-3 gap-4">
         {/* HTML Editor */}
         <div className="col-span-1">
@@ -139,7 +192,7 @@ const CodeEditor = () => {
 
         {/* CSS Editor */}
         <div className="col-span-1 ">
-          <h2 className="text-lg font-bold mb-2">HTML</h2>
+          <h2 className="text-lg font-bold mb-2">CSS</h2>
           <Editor
             height="400px"
             defaultLanguage="css"
@@ -152,7 +205,7 @@ const CodeEditor = () => {
 
         {/* JS Editor */}
         <div className="col-span-1">
-          <h2 className="text-lg font-bold mb-2">HTML</h2>
+          <h2 className="text-lg font-bold mb-2">JAVASCRIPT</h2>
           <Editor
             height="400px"
             defaultLanguage="javascript"
@@ -175,6 +228,22 @@ const CodeEditor = () => {
       <button className="bg-blue-600 hover:bg-blue-500 p-2 ml-2 rounded-md text-white font-semibold transition duration-300">
         <Link to="/">Home</Link>
       </button>
+
+      {/* Export Buttons */}
+      <div className="mt-4 space-x-2">
+        <button
+          onClick={handleExportSeparateFiles}
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Export Separate Files
+        </button>
+        <button
+          onClick={handleExportSingleFile}
+          className="bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 transition duration-300"
+        >
+          Export Single File
+        </button>
+      </div>
 
       {/* Output */}
       <div className="mt-8">
