@@ -116,7 +116,7 @@ const CodeEditor = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Snippet Title"
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focu:ring-blue-500 transition duration-300"
         />
       </div>
 
@@ -130,11 +130,12 @@ const CodeEditor = () => {
             defaultValue={html}
             onChange={(value) => setHtml(value)}
             theme="vs-dark"
+            minimap={{ enabled: false }}
           />
         </div>
 
         {/* CSS Editor */}
-        <div className="col-span-1">
+        <div className="col-span-1 ">
           <h2 className="text-lg font-bold mb-2">HTML</h2>
           <Editor
             height="400px"
@@ -142,6 +143,7 @@ const CodeEditor = () => {
             defaultValue={css}
             onChange={(value) => setCss(value)}
             theme="vs-dark"
+            minimap={{ enabled: false }}
           />
         </div>
 
@@ -154,6 +156,7 @@ const CodeEditor = () => {
             defaultValue={js}
             onChange={(value) => setJs(value)}
             theme="vs-dark"
+            minimap={{ enabled: false }}
           />
         </div>
       </div>
@@ -161,12 +164,12 @@ const CodeEditor = () => {
       {/* Save Button */}
       <button
         onClick={handleSaveSnippet}
-        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300"
       >
         {id ? 'Update Snippet' : 'Save Snippet'}
       </button>
 
-      <button className="bg-blue-700 hover:bg-blue-500 p-2 ml-2 rounded-md text-white font-semibold">
+      <button className="bg-blue-600 hover:bg-blue-500 p-2 ml-2 rounded-md text-white font-semibold transition duration-300">
         <Link to="/">Home</Link>
       </button>
 
