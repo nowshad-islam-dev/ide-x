@@ -1,5 +1,7 @@
 // client/src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css'; // Import default styles of react-toastify
 
 // Components
 import LoginPage from './pages/LoginPage';
@@ -45,6 +47,7 @@ function App() {
           <Route path="/shared/:shareableId" element={<SharedSnippetPage />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
+        <ToastContainer />
       </div>
     </Router>
   );
