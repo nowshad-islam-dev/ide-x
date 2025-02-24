@@ -1,6 +1,10 @@
 // server/controllers/auth.controller.js
+import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
+
+// helper funnction
+import sendResetEmail from '../helpers/sendMail.js';
 
 // Load User Model
 import User from '../models/user.model.js';
@@ -36,6 +40,66 @@ export const registerUser = async (req, res) => {
     console.error(err);
 
     res.status(500).send('Server Error');
+  }
+};
+
+export const sendResetEmailToUser = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ message: 'No account with that email found' });
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  // Save the token and expiration time to user document
+  user.resetPasswordToken = resetToken;
+  user.resetPasswordExpires = Date.now() + 1 * 60 * 60 * 1000; // 1 hour in ms
+  await user.save();
+
+  // Create the reset URL
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+  // Send the email
+  sendResetEmail(email, resetUrl);
+
+  try {
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }, // Check if token is not expired
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    // Store the new password
+    user.password = password;
+
+    // Clear rest token and expiration from user
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.json({ message: 'Password reset successfull' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
   }
 };
 

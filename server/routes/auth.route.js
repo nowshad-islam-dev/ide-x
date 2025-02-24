@@ -9,6 +9,8 @@ import {
   registerUser,
   loginUser,
   getGithubOAuth,
+  sendResetEmailToUser,
+  resetPassword,
 } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -16,6 +18,9 @@ import { protect } from '../middleware/authMiddleware.js';
 import User from '../models/user.model.js';
 
 // Register a new user
+// @route   POST /api/auth/register
+// @desc    Register a new user
+// @access  Public
 router.post(
   '/register',
   [
@@ -33,6 +38,16 @@ router.post(
   ],
   registerUser
 );
+
+// @route   POST /api/auth/forgot-password
+// @desc    Send password reset email
+// @access  Public
+router.post('/forgot-password', sendResetEmailToUser);
+
+// @route   POST /api/auth/reset-password/:token
+// @desc    Reset password
+// @access  Public
+router.post('/reset-password/:token', resetPassword);
 
 // Login user
 router.post('/login', loginUser);

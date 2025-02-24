@@ -1,3 +1,4 @@
+// server/helpers/sendMail.js
 import nodemailer from 'nodemailer';
 
 // Helper function to send email
