@@ -41,7 +41,19 @@ router.post(
 // @route   POST /api/auth/forgot-password
 // @desc    Send password reset email
 // @access  Public
-router.post('/forgot-password', sendResetEmailToUser);
+router.post(
+  '/forgot-password',
+  [
+    check(
+      'password',
+      'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character'
+    ).matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'i'
+    ),
+  ],
+  sendResetEmailToUser
+);
 
 // @route   POST /api/auth/reset-password/:token
 // @desc    Reset password
