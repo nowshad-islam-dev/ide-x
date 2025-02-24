@@ -17,7 +17,6 @@ import { protect } from '../middleware/authMiddleware.js';
 // Load User Model
 import User from '../models/user.model.js';
 
-// Register a new user
 // @route   POST /api/auth/register
 // @desc    Register a new user
 // @access  Public
