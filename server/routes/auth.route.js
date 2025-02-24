@@ -1,6 +1,7 @@
 // server/routes/auth.route.js
 import express from 'express';
 import passport from 'passport';
+import { check } from 'express-validator';
 
 const router = express.Router();
 
@@ -15,7 +16,23 @@ import { protect } from '../middleware/authMiddleware.js';
 import User from '../models/user.model.js';
 
 // Register a new user
-router.post('/register', registerUser);
+router.post(
+  '/register',
+  [
+    // Validate email format
+    check('email', 'Please include a valid email').isEmail(),
+
+    // Validate pasword strength
+    check(
+      'password',
+      'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character'
+    ).matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'i'
+    ),
+  ],
+  registerUser
+);
 
 // Login user
 router.post('/login', loginUser);
