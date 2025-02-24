@@ -55,6 +55,13 @@ const LoginPage = () => {
           Login
         </button>
 
+        <Link
+          to="/forgot-password"
+          className=" text-red-500 hover:text-red-400 font-medium ml-14 "
+        >
+          Forgot your password?
+        </Link>
+
         {/* GitHub OAuth Button */}
         <button
           onClick={handleGithubLogin}
@@ -64,7 +71,7 @@ const LoginPage = () => {
         </button>
         <Link
           to="/register"
-          className="text-gray-700 hover:text-blue-500 font-medium ml-8"
+          className="text-gray-700 hover:text-blue-500 font-medium ml-14"
         >
           Register a new account
         </Link>
