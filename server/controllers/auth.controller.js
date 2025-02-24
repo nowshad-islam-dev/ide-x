@@ -66,7 +66,7 @@ export const sendResetEmailToUser = async (req, res) => {
 
   // Send the email
   sendResetEmail(email, resetUrl);
-
+  res.json({ message: 'Password reset email sent' });
   try {
   } catch (err) {
     console.error(err.message);
