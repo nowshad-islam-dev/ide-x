@@ -1,6 +1,6 @@
 // server/routes/auth.route.js
 import express from 'express';
-import passport from 'passport';
+import passport from '../config/passport.js';
 import { check } from 'express-validator';
 
 const router = express.Router();
@@ -83,7 +83,6 @@ router.get('/me', protect, async (req, res) => {
     // req.user is set in the protect middleware
     // it refers to the user id in the token
     const user = await User.findById(req.user).select('-password');
-
     res.json(user);
   } catch (err) {
     console.error(err.message);
