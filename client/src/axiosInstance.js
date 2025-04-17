@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: '/api', // All requests will be prefixed with /api
+  baseURL: 'https://ide-x.onrender.com/api', // All requests will be prefixed with /api
   withCredentials: true, // Include credentials (e.g., cookies) if needed
 });
 
