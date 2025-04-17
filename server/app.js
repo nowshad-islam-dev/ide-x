@@ -16,7 +16,7 @@ connectDB();
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000', // Allow local development
-  'https://ide-x.vercel.app/', // Frontend URL
+  'https://ide-x.vercel.app', // Frontend URL
 ];
 
 app.use(
