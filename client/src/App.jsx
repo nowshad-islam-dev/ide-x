@@ -1,5 +1,11 @@
 // client/src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css'; // Import default styles of react-toastify
 
@@ -15,6 +21,21 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
 function App() {
+  useEffect(() => {
+    // Extract token from URL query parameters
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+
+    if (token) {
+      // Store the token in localStorage
+      localStorage.setItem('token', token);
+
+      // Clear the token from the URL
+      window.history.replaceState({}, document.title, '/');
+      window.location.reload();
+    }
+  }, [location]);
+
   return (
     <Router>
       <div className="App">
