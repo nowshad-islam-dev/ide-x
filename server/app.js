@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 
@@ -21,6 +22,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+    }),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // Session expires after 24 hours
       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
