@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     resetPasswordToken: {
       type: String,
@@ -25,6 +24,7 @@ const userSchema = new mongoose.Schema(
     },
     githubId: {
       type: String,
+      unique: true,
     },
     avatar: {
       type: String,
