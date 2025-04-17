@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://ide-x.onrender.com/', // Backend server URL
+        target: 'https://ide-x.onrender.com', // Backend server URL
         changeOrigin: true,
         secure: true, // Set to true if using HTTPS
       },
