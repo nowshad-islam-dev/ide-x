@@ -13,7 +13,25 @@ import connectDB from './config/db.js';
 connectDB();
 
 // Middleware
-app.use(cors());
+// CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000', // Allow local development
+  'https://ide-x.vercel.app/', // Frontend URL
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (e.g., mobile apps, Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // Allow cookies and authorization headers
+  })
+);
 app.use(express.json());
 
 // Session Middleware (required for Passport.js)
