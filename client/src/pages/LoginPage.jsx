@@ -19,7 +19,7 @@ const LoginPage = () => {
   };
 
   const handleGithubLogin = () => {
-    window.location.href = '/api/auth/github'; // Redirect to Github OAuth
+    window.location.href = 'https://ide-x.onrender.com/api/auth/github'; // Redirect to Github OAuth
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
