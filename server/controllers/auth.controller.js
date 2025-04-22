@@ -145,5 +145,5 @@ export const getGithubOAuth = async (req, res) => {
     expiresIn: '30d',
   });
 
-  res.redirect(`http://localhost:3000?token=${token}`);
+  res.redirect(`https://ide-x.vercel.app?token=${token}`);
 };
